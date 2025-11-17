@@ -94,6 +94,21 @@ impl Interpreter {
                             eprintln!("Error: 'dup' requires a value on the stack");
                         }
                     }
+                    "drop" => {
+                        if self.stack.pop().is_none() {
+                            eprintln!("Error: 'drop' requires a value on the stack");
+                        }
+                    }
+                    "swap" => {
+                        if self.stack.len() < 2 {
+                            eprintln!("Error: 'swap' requires two values on the stack");
+                        } else {
+                            let b = self.stack.pop().unwrap();
+                            let a = self.stack.pop().unwrap();
+                            self.stack.push(b);
+                            self.stack.push(a);
+                        }
+                    }
                     _ => {
                         eprintln!("Error: Unknown identifier '{}'", name);
                     }

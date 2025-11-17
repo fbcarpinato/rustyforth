@@ -33,5 +33,21 @@ fn main() {
 
     let mut interpreter = Interpreter::new();
 
-    interpreter.interpret(tokens);
+    match interpreter.interpret(tokens) {
+        Ok(_) => {}
+        Err(e) => match e {
+            interpreter::InterpreterError::StackUnderflow => {
+                eprintln!("Error: Stack underflow");
+            }
+            interpreter::InterpreterError::TypeMismatch(expected) => {
+                eprintln!("Error: Type mismatch, expected {}", expected);
+            }
+            interpreter::InterpreterError::UnknownWord(word) => {
+                eprintln!("Error: Unknown word '{}'", word);
+            }
+            interpreter::InterpreterError::DivisionByZero => {
+                eprintln!("Error: Division by zero");
+            }
+        },
+    }
 }
